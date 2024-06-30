@@ -1,0 +1,11 @@
+{
+  "DashboardPageTranslate": {
+    "title": "Hello World"
+  },
+  "EnterInvoicePageTranslate": {
+    "title": "Enter Purchase Invoice"
+  },
+  "DashboardProductpageTranslate": {
+    "title": "Add new product"
+  }
+}

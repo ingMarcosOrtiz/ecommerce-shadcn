@@ -191,5 +191,14 @@
   "application": "application",
   "components": "components",
   "forms": "forms",
-  "menu": "menu"
+  "menu": "menu",
+  "DashboardPageTranslate": {
+    "title": "Hello World"
+  },
+  "EnterInvoicePageTranslate": {
+    "title": "Enter Purchase Invoice"
+  },
+  "DashboardProductpageTranslate": {
+    "title": "Add new product"
+  }
 }

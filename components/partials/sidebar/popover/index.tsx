@@ -40,18 +40,20 @@ const PopoverSidebar = ({ trans }: { trans: string }) => {
   const pathname = usePathname()
   const locationName = getDynamicPath(pathname)
 
+  const cleanLocationName = locationName.replace(/^\/(en|es)/, '')
+
   React.useEffect(() => {
     let subMenuIndex = null
     let multiMenuIndex = null
     menus?.map((item: any, i: number) => {
       if (item?.child) {
         item.child.map((childItem: any, j: number) => {
-          if (isLocationMatch(childItem.href, locationName)) {
+          if (isLocationMatch(childItem.href, cleanLocationName)) {
             subMenuIndex = i
           }
           if (childItem?.multi_menu) {
             childItem.multi_menu.map((multiItem: any, k: number) => {
-              if (isLocationMatch(multiItem.href, locationName)) {
+              if (isLocationMatch(multiItem.href, cleanLocationName)) {
                 subMenuIndex = i
                 multiMenuIndex = j
               }
@@ -60,6 +62,7 @@ const PopoverSidebar = ({ trans }: { trans: string }) => {
         })
       }
     })
+
     setActiveSubmenu(subMenuIndex)
     setMultiMenu(multiMenuIndex)
   }, [locationName])

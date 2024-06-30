@@ -1,12 +1,15 @@
-import React from 'react'
-import Card from '@/components/ui/card-snippet'
+import EnterInvoicePageView from './page-view'
+import { getDictionary } from '@/app/dictionaries'
 
-export default function EnterInvoicePage() {
-  return (
-    <>
-      <Card title='Ingresar Factura de compra'>
-        <p>EnterInvoicePage</p>
-      </Card>
-    </>
-  )
+interface DashboardProps {
+  params: {
+    lang: any
+  }
 }
+const EnterInvoicePage = async ({ params: { lang } }: DashboardProps) => {
+  const trans = await getDictionary(lang)
+
+  return <EnterInvoicePageView trans={trans} />
+}
+
+export default EnterInvoicePage

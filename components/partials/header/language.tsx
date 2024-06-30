@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import {
@@ -9,8 +9,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import flag1 from '@/public/images/all-img/flag-1.png'
-import flag2 from '@/public/images/all-img/flag-2.png'
-import flag3 from '@/public/images/all-img/flag-3.png'
+import flag4 from '@/public/images/all-img/flag4.png'
+
 import { useState } from 'react'
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
@@ -22,12 +22,8 @@ const languages = [
     flag: flag1,
   },
   {
-    name: 'bn',
-    flag: flag2,
-  },
-  {
-    name: 'ar',
-    flag: flag3,
+    name: 'es',
+    flag: flag4,
   },
 ]
 const Language = () => {
@@ -39,7 +35,7 @@ const Language = () => {
 
   const router = useRouter()
   const pathname = usePathname()
-  const { isRtl, setRtl } = useThemeStore()
+  // const { isRtl, setRtl } = useThemeStore()
   const found = pathname
     ? languages.find((lang) => pathname.includes(lang.name))
     : null
@@ -47,15 +43,35 @@ const Language = () => {
     found ?? languages[0]
   )
 
+  useEffect(() => {
+    const nextLocaleCookie = document.cookie
+      .split('; ')
+      .find((cookie) => cookie.startsWith('NEXT_LOCALE='))
+
+    if (nextLocaleCookie) {
+      const nextLocaleValue = nextLocaleCookie.split('=')[1]
+      const foundLanguage = languages.find(
+        (lang) => lang.name === nextLocaleValue
+      )
+      if (foundLanguage) {
+        setSelectedLanguage(foundLanguage)
+      }
+    }
+  }, [])
+
   const handleSelected = (lang: string) => {
     setSelectedLanguage({
       ...selectedLanguage,
       name: lang,
-      language: lang === 'en' ? 'En' : 'Bn',
+      language: lang === 'en' ? 'En' : 'Es',
     })
-    setRtl(lang === 'ar')
+    // setRtl(lang === 'ar')
+    // console.log(`/${lang}/${pathname.split('/')[2]}/${pathname.split('/')[3]}`)
+
     if (pathname) {
-      router.push(`/${lang}/${pathname.split('/')[2]}`)
+      router.push(
+        `/${lang}/${pathname.split('/')[2]}/${pathname.split('/')[3]}`
+      )
     }
   }
   return (

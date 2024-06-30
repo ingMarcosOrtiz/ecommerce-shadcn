@@ -191,5 +191,14 @@
   "application": "অ্যাপ্লিকেশন",
   "components": "উপাদান",
   "forms": "ফর্ম",
-  "menu": "তালিকা"
+  "menu": "তালিকা",
+  "DashboardPageTranslate": {
+    "title": "Hola mundo"
+  },
+  "EnterInvoicePageTranslate": {
+    "title": "Ingresar Factura de compra"
+  },
+  "DashboardProductpageTranslate": {
+    "title": "Agregar nuevo producto"
+  }
 }

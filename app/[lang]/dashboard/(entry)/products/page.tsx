@@ -12,8 +12,11 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Button } from '@/components/ui/button'
 import { ScanLine } from 'lucide-react'
+// import { useTranslations } from 'next-intl'
 
 export default function Productpage() {
+  // const t = useTranslations('EnterInvoicePageTranslate')
+
   return (
     <>
       <Card title='Agregar nuevo producto'>
@@ -135,7 +138,7 @@ export default function Productpage() {
                 className='w-full md:w-auto'
                 type='button'>
                 {/* <Save className='mr-2' /> */}
-                guardar
+                Guardar
               </Button>
             </div>
           </div>
