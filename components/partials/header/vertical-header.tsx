@@ -6,6 +6,7 @@ import { Search } from 'lucide-react'
 import { SiteLogo } from '@/components/svg'
 import Link from 'next/link'
 import { useMediaQuery } from '@/hooks/use-media-query'
+import { CurrentDateTime } from '@/components/ui/current-date-time'
 
 const MenuBar = ({
   collapsed,
@@ -76,7 +77,8 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({
   )
   const SearchButton = (
     <div>
-      <button
+      <CurrentDateTime />
+      {/* <button
         type='button'
         className=' inline-flex  gap-2 items-center text-default-600 text-sm'
         onClick={handleOpenSearch}>
@@ -84,7 +86,7 @@ const VerticalHeader: React.FC<VerticalHeaderProps> = ({
           <Search className=' h-4 w-4' />
         </span>
         <span className=' md:block hidden'> Search...</span>
-      </button>
+      </button> */}
     </div>
   )
   if (layout === 'semibox' && !isDesktop) {

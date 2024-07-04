@@ -127,7 +127,17 @@ export const formatDate = (date: string | number | Date): string => {
     month: 'long',
     day: 'numeric',
   }
-  return new Date(date).toLocaleDateString('en-US', options)
+
+  const d = new Date(date)
+  const year = d.getFullYear()
+  const month = String(d.getMonth() + 1).padStart(2, '0') // getMonth() devuelve 0-11, por eso sumamos 1
+  const day = String(d.getDate()).padStart(2, '0')
+
+  // return `${year}-${month}-${day}`;
+  console.log('date🔵', `${year}-${month}-${day}`)
+
+  // return new Date(date).toLocaleDateString('en-US', options)
+  return new Date(date).toLocaleDateString('es-ES', options)
 }
 
 // random word
