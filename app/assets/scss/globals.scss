@@ -144,6 +144,9 @@
       @apply hover:-translate-y-1 hover:relative hover:z-10 transition-transform;
     }
   }
+  *::selection {
+    @apply bg-primary-200;
+  }
 }
 
 @layer components {

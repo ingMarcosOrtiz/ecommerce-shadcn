@@ -108,17 +108,18 @@ export default function EnterInvoicePageView({ trans }: Props) {
             <Card className='col-span-12  '>
               <CardHeader className='sm:flex-row sm:items-center gap-3'>
                 <div className='flex-1 text-xl font-medium text-default-700 whitespace-nowrap'>
-                  Factura Proveedores
+                  Factura de Proveedor
                 </div>
                 <div className='flex-none flex items-center gap-4'>
-                  <Button>
+                  {/* <Button>
                     Save As PDF{' '}
                     <Icon
                       icon='heroicons:document-text'
                       className='w-5 h-5 ltr:ml-2 rtl:mr-2'
                     />
-                  </Button>
+                  </Button> */}
                   <Button
+                    title='Imprimir'
                     className='border-default-300 group'
                     size='icon'
                     variant='outline'>
@@ -139,73 +140,30 @@ export default function EnterInvoicePageView({ trans }: Props) {
                 </div>
               </CardHeader>
               <CardContent>
-                {/* <div className='flex flex-wrap gap-4'>
-                  <div className='flex-1 min-w-[250px]'>
-                    <div className='w-full md:w-[248px] space-y-2'>
-                      <div className='flex-col w-full'>
-                        <Label className='text-default-600' htmlFor='fullName5'>
-                          Codigo Factura
-                        </Label>
-                        <Input
-                          className='w-full'
-                          size='lg'
-                          type='text'
-                          placeholder='codigo'
-                          id='fullName5'
-                        />
-                      </div>
-                      <Input type='text' placeholder='Invoice ID' size='lg' />
-                      <div className='relative'>
-                        <Flatpickr
-                          className='w-full border border-default-300 bg-background text-default-500  focus:outline-none h-10 rounded-md px-2 placeholder:text-default-500'
-                          placeholder='Invoice Date'
-                        />
-                        <Icon
-                          icon='heroicons:calendar-days'
-                          className='w-5 h-5 absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 text-default-400'
-                        />
-                      </div>
-                      <div className='relative'>
-                        <Flatpickr
-                          className='w-full border border-default-300 bg-background text-default-500  focus:outline-none h-10 rounded-md px-2 placeholder:text-default-500'
-                          placeholder='Due Date'
-                        />
-                        <Icon
-                          icon='heroicons:calendar-days'
-                          className='w-5 h-5 absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 text-default-400 '
-                        />
-                      </div>
-                      <div className='flex items-center gap-1.5 pt-2'>
-                        <Button
-                          className='w-5 h-5 rounded-md bg-transparent hover:bg-transparent p-0'
-                          variant='outline'>
-                          <Plus className='w-3.5 h-3.5 text-default-500' />
-                        </Button>
-                        <span className='text-xs font-medium text-default-600'>
-                          {' '}
-                          Add More Fields
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex-1 md:flex-none flex flex-col items-end w-[222px] min-w-[222px]'>
-                    <Label
-                      htmlFor='uploadFile'
-                      className='cursor-pointer  w-full md:w-[220px] h-[180px] bg-default-100 dark:bg-default-50 rounded-md flex justify-center items-center'>
-                      <div className='flex flex-col items-center w-full'>
-                        <Upload className='ltr:mr-2 rtl:ml-2 h-7 w-7 mb-2 text-primary' />
-                        <span className='text-sm font-medium text-primary'>
-                          Upload Logo
-                        </span>
-                      </div>
-                      <Input type='file' className='hidden' id='uploadFile' />
-                    </Label>
-                    <div className='mt-2 text-[10px] text-default-600'>
-                      240 x 240 pixels @ 72 DPI, Maximum size of 1MB to 3.5MB.
-                    </div>
-                  </div>
-                </div> */}
                 <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                  <div className='flex flex-col gap-1'>
+                    <Label htmlFor='nit'>Nit</Label>
+
+                    <InputGroup>
+                      <Input size='lg' type='text' placeholder='Buscar Nit' />
+                      <InputGroupButton className='cursor-pointer'>
+                        <Button
+                          title='Buscar proveedor'
+                          onClick={() => alert('Buscar proveedor')}>
+                          <Icon icon='heroicons:magnifying-glass' />
+                        </Button>
+                      </InputGroupButton>
+                    </InputGroup>
+                  </div>
+                  <div className='flex flex-col gap-1'>
+                    <Label htmlFor='nproveedor'>Nombre Proveedor</Label>
+
+                    <div className=' text-sm text-left border  bg-background font-medium text-primary p-2    rounded-lg border-default-300 w-full h-full '>
+                      <span className='uppercase'>
+                        COLCHONES Y MUEBLES RELAX S.A.S
+                      </span>
+                    </div>
+                  </div>
                   <div className='flex flex-col gap-1'>
                     <Label htmlFor='fullName5'>Codigo Factura</Label>
                     <Input
@@ -215,26 +173,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       placeholder='codigo'
                       id='fullName5'
                     />
-                  </div>
-
-                  <div className='flex flex-col gap-1'>
-                    <Label htmlFor='nit'>Nit</Label>
-                    {/* <Input
-                      className='w-full'
-                      size='lg'
-                      type='text'
-                      placeholder='ingresa nit'
-                      id='nit'
-                    /> */}
-                    <InputGroup>
-                      <InputGroupButton>
-                        <Button size='sm'>Search</Button>
-                      </InputGroupButton>
-                      <Input type='text' placeholder='Search..' />
-                      <InputGroupText>
-                        <Icon icon='heroicons:magnifying-glass' />
-                      </InputGroupText>
-                    </InputGroup>
                   </div>
 
                   {/* <div className='flex flex-col gap-1'>
@@ -413,7 +351,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       </div>
                     </div> */}
                   </div>
-                  <div className='flex flex-col gap-1'>
+                  {/* <div className='flex flex-col gap-1'>
                     <Label htmlFor='estado'>Estado</Label>
                     <Select>
                       <SelectTrigger size='lg'>
@@ -425,7 +363,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         <SelectItem value='anulado'>Anulado</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </div> */}
 
                   {/* <div className='flex flex-col gap-1'>
                     <Label htmlFor='costoenvio'>Costo Total de envio</Label>
@@ -489,8 +427,11 @@ export default function EnterInvoicePageView({ trans }: Props) {
                 </div> */}
                 <section className='mt-9'>
                   <Button className='text-xs whitespace-nowrap'>
-                    <Plus className='w-5 h-5 ltr:mr-2 rtl:ml-2' /> Buscar
-                    Productos
+                    <Icon
+                      icon='heroicons:magnifying-glass'
+                      className='w-5 h-5 ltr:mr-2 rtl:ml-2'
+                    />
+                    Buscar Productos
                   </Button>
                 </section>
                 <div className='border border-default-300 rounded-md mt-9'>
@@ -517,12 +458,12 @@ export default function EnterInvoicePageView({ trans }: Props) {
                             Precio Unit.
                           </TableHead>
 
-                          <TableHead className='text-default-600 uppercase '>
+                          {/* <TableHead className='text-default-600 uppercase '>
                             Envio
-                          </TableHead>
+                          </TableHead> */}
 
                           <TableHead className='text-default-600 uppercase whitespace-nowrap'>
-                            Precio+Iva+Env
+                            Valor Iva
                           </TableHead>
 
                           <TableHead className='text-default-600 uppercase whitespace-nowrap'>
@@ -537,7 +478,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                           <TableCell className='max-w-[100px] text-[10px] overflow-hidden break-words'>
                             1982459989
                           </TableCell>
-                          <TableCell className='max-w-[250px] flex lowercase'>
+                          <TableCell className='  lowercase'>
                             COLCHON CARIBBEAN PRIDE 100X190
                           </TableCell>
                           <TableCell>
@@ -570,11 +511,11 @@ export default function EnterInvoicePageView({ trans }: Props) {
                               placeholder='precio'
                             />
                           </TableCell>
-                          <TableCell className='whitespace-nowrap'>
+                          {/* <TableCell className='whitespace-nowrap'>
                             $ 2,625
-                          </TableCell>
+                          </TableCell> */}
                           <TableCell className='whitespace-nowrap'>
-                            $ 311,953
+                            $ 148.165
                           </TableCell>
 
                           <TableCell className='whitespace-nowrap text-right'>
@@ -625,7 +566,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         </div>
 
                         <div className='text-sm text-right border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
-                          $ 927.985
+                          <span>$ 927.985</span>
                         </div>
                         {/* <Input
                           disabled
@@ -730,24 +671,24 @@ export default function EnterInvoicePageView({ trans }: Props) {
                     <Label
                       htmlFor='note'
                       className='text-sm font-medium text-default-600 mb-1'>
-                      Note:
+                      Nota:
                     </Label>
                     <Textarea
                       id='note'
                       className='rounded h-10'
-                      placeholder='type note...'
+                      placeholder='agregar alguina nota...'
                     />
                   </div>
                   <div>
                     <Label
                       htmlFor='terms'
                       className='text-sm font-medium text-default-600 mb-1'>
-                      Terms & Conditions:
+                      Términos y Condiciones:
                     </Label>
                     <Textarea
                       id='terms'
                       className='rounded h-10'
-                      placeholder='type terms...'
+                      placeholder='agregar términos y condiciones...'
                     />
                   </div>
                 </div>
