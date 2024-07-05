@@ -62,7 +62,11 @@ import DatePicker, { registerLocale } from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { es } from 'date-fns/locale/es'
 import BasicInputGroup from '@/components/ui/input2/basic-input-group'
-import { InputGroup, InputGroupText } from '@/components/ui/input-group'
+import {
+  InputGroup,
+  InputGroupButton,
+  InputGroupText,
+} from '@/components/ui/input-group'
 import { CleaveInput } from '@/components/ui/cleave'
 registerLocale('es', es)
 
@@ -104,7 +108,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
             <Card className='col-span-12  '>
               <CardHeader className='sm:flex-row sm:items-center gap-3'>
                 <div className='flex-1 text-xl font-medium text-default-700 whitespace-nowrap'>
-                  Ingresar Factura
+                  Factura Proveedores
                 </div>
                 <div className='flex-none flex items-center gap-4'>
                   <Button>
@@ -212,24 +216,28 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       id='fullName5'
                     />
                   </div>
+
                   <div className='flex flex-col gap-1'>
-                    <Label className='text-default-600' htmlFor='state'>
-                      Tipo factura
-                    </Label>
-                    <Select>
-                      <SelectTrigger size='lg'>
-                        <SelectValue placeholder='Selecionar Factura' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value='pedido'>Pedidos</SelectItem>
-                        <SelectItem value='entrada'>Entrada</SelectItem>
-                        <SelectItem value='salida'>Salida</SelectItem>
-                        <SelectItem value='plan_separe'>Plan separe</SelectItem>
-                        <SelectItem value='credito'>Credito</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label htmlFor='nit'>Nit</Label>
+                    {/* <Input
+                      className='w-full'
+                      size='lg'
+                      type='text'
+                      placeholder='ingresa nit'
+                      id='nit'
+                    /> */}
+                    <InputGroup>
+                      <InputGroupButton>
+                        <Button size='sm'>Search</Button>
+                      </InputGroupButton>
+                      <Input type='text' placeholder='Search..' />
+                      <InputGroupText>
+                        <Icon icon='heroicons:magnifying-glass' />
+                      </InputGroupText>
+                    </InputGroup>
                   </div>
-                  <div className='flex flex-col gap-1'>
+
+                  {/* <div className='flex flex-col gap-1'>
                     <Label htmlFor='state'>Proveedor</Label>
                     <Select>
                       <SelectTrigger size='lg'>
@@ -246,16 +254,28 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         <SelectItem value='chiche'>La chiche</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </div> */}
                   <div className='flex flex-col gap-1'>
-                    <Label htmlFor='formadepago'>Forma de pago</Label>
+                    <Label htmlFor='formadepago'>Tipo de compra</Label>
                     <Select>
                       <SelectTrigger size='lg'>
-                        <SelectValue placeholder='Selecionar Forma de pago' />
+                        <SelectValue placeholder='Selecionar tipo de compra' />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value='crdito'>Credito</SelectItem>
-                        <SelectItem value='efectivo'>Efectivo</SelectItem>
+                        <SelectItem value='contado'>Contado</SelectItem>
+                        <SelectItem value='credito'>Credito</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className='flex flex-col gap-1'>
+                    <Label htmlFor='formadepago'>Medio de Pago</Label>
+                    <Select>
+                      <SelectTrigger size='lg'>
+                        <SelectValue placeholder='Selecionar medio de pago' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value='caja'>Caja</SelectItem>
+                        <SelectItem value='bancos'>Bancos</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -407,14 +427,14 @@ export default function EnterInvoicePageView({ trans }: Props) {
                     </Select>
                   </div>
 
-                  <div className='flex flex-col gap-1'>
-                    <Label htmlFor='costoenvio'>Costo de envio</Label>
+                  {/* <div className='flex flex-col gap-1'>
+                    <Label htmlFor='costoenvio'>Costo Total de envio</Label>
 
                     <InputGroup>
                       <InputGroupText className='px-1'>
                         <Icon className='text-xl' icon='healthicons:dollar' />
                       </InputGroupText>
-                      {/* <Input size='lg' type='text' placeholder='valor' /> */}
+                    
                       <CleaveInput
                         id='nu'
                         options={{
@@ -425,7 +445,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         placeholder='valor'
                       />
                     </InputGroup>
-                  </div>
+                  </div> */}
 
                   <div className='flex flex-col gap-1'>
                     <Label htmlFor='costoenvio'>Subir Archivo factura</Label>
@@ -436,6 +456,16 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       variant='flat'
                     />
                   </div>
+                  {/* <div className='flex flex-col gap-1'>
+                    <Label htmlFor='cProductos'>Cantidad Total Productos</Label>
+                    <Input
+                      className='w-full'
+                      size='lg'
+                      type='text'
+                      placeholder='total de productos'
+                      id='cProductos'
+                    />
+                  </div> */}
                 </div>
                 {/* <div className='mt-8 flex justify-between flex-wrap gap-4'>
                   <div className='w-full 2xl:max-w-[400px] space-y-2'>
@@ -474,58 +504,89 @@ export default function EnterInvoicePageView({ trans }: Props) {
                           <TableHead className='text-default-600 uppercase'>
                             Productos
                           </TableHead>
-                          <TableHead className='text-default-600 uppercase'>
-                            Cantidad
-                          </TableHead>
-                          <TableHead className='text-default-600 uppercase'>
-                            Precio Compra
-                          </TableHead>
+
                           <TableHead className='text-default-600 uppercase '>
+                            Iva %
+                          </TableHead>
+
+                          <TableHead className='text-default-600 uppercase'>
+                            Cant
+                          </TableHead>
+
+                          <TableHead className='text-default-600 uppercase whitespace-nowrap'>
+                            Precio Unit.
+                          </TableHead>
+
+                          <TableHead className='text-default-600 uppercase '>
+                            Envio
+                          </TableHead>
+
+                          <TableHead className='text-default-600 uppercase whitespace-nowrap'>
+                            Precio+Iva+Env
+                          </TableHead>
+
+                          <TableHead className='text-default-600 uppercase whitespace-nowrap'>
                             Total
                           </TableHead>
-                          <TableHead className='text-default-600 uppercase '></TableHead>
+
+                          {/* <TableHead className='text-default-600 uppercase '></TableHead> */}
                         </TableRow>
                       </TableHeader>
                       <TableBody className='[&_tr:last-child]:border-1 '>
                         <TableRow>
-                          <TableCell>1982459989</TableCell>
-                          <TableCell>
-                            <div className='max-w-[250px] flex'>
-                              Gaming Mouse & Keyboard Combo
-                              {/* <Select>
-                                  <SelectTrigger className='rounded ltr:rounded-l-none rtl:rounded-r-none h-9  pr-1 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:mt-1 '>
-                                    <SelectValue placeholder='pcs' />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value='pcs'>pcs</SelectItem>
-                                    <SelectItem value='kg'>kg</SelectItem>
-                                  </SelectContent>
-                                </Select> */}
-                            </div>
+                          <TableCell className='max-w-[100px] text-[10px] overflow-hidden break-words'>
+                            1982459989
+                          </TableCell>
+                          <TableCell className='max-w-[250px] flex lowercase'>
+                            COLCHON CARIBBEAN PRIDE 100X190
                           </TableCell>
                           <TableCell>
                             <Input
-                              className='w-full max-w-[90px] text-default-900 appearance-none accent-transparent rounded font-medium'
+                              className='text-start w-[50px] font-medium text-default-900 rounded '
+                              type='text'
+                              placeholder='0'
+                            />
+                          </TableCell>
+                          <TableCell>
+                            <Input
+                              placeholder='0'
                               type='number'
-                              defaultValue='1'
+                              className='w-[65px] text-default-900 appearance-none accent-transparent rounded font-medium'
                             />
                           </TableCell>
                           <TableCell>
-                            <Input
-                              defaultValue='$1,663,00.00'
-                              className='text-start font-medium max-w-[120px] text-default-900 rounded '
+                            {/* <Input
+                              placeholder='0'
+                              className='text-start font-medium  text-default-900 rounded w-[120px]'
+                            /> */}
+                            <CleaveInput
+                              className='text-start h-[35px] font-medium  text-default-900 rounded w-[120px]'
+                              id='nu'
+                              options={{
+                                numeral: true,
+                                delimiter: ',',
+                                blocks: [3, 3, 3],
+                              }}
+                              placeholder='precio'
                             />
                           </TableCell>
-                          <TableCell>
-                            <div className='flex items-center gap-2 '>
-                              <Input
-                                defaultValue='$1663.00'
-                                className='text-start font-medium  text-default-900 rounded '
-                              />
+                          <TableCell className='whitespace-nowrap'>
+                            $ 2,625
+                          </TableCell>
+                          <TableCell className='whitespace-nowrap'>
+                            $ 311,953
+                          </TableCell>
+
+                          <TableCell className='whitespace-nowrap text-right'>
+                            <div className='flex items-center justify-center gap-2'>
+                              $ 779,820
                               <Trash2 className='w-4 h-4 text-warning' />
                             </div>
                           </TableCell>
-                          <TableCell></TableCell>
+
+                          {/* <TableCell>
+                            <Trash2 className='w-4 h-4 text-warning' />
+                          </TableCell> */}
                         </TableRow>
                       </TableBody>
                     </Table>
@@ -545,12 +606,34 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         <div className='text-sm font-medium text-default-600'>
                           Sub Total:
                         </div>
-                        <Input
-                          defaultValue='$1663.00'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        />
+
+                        <div className='text-sm text-right border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
+                          $ 779.820
+                        </div>
                       </div>
                       <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
+                        <div className='text-sm font-medium text-default-600'>
+                          Iva 19%
+                        </div>
+                        <div className='text-sm text-right  border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
+                          $ 148.165
+                        </div>
+                      </div>
+                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
+                        <div className='text-sm font-medium text-default-600'>
+                          Total
+                        </div>
+
+                        <div className='text-sm text-right border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
+                          $ 927.985
+                        </div>
+                        {/* <Input
+                          disabled
+                          defaultValue='$ 927.985'
+                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
+                        /> */}
+                      </div>
+                      {/* <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
                         <div className='text-sm font-medium text-default-600'>
                           Coupon Discount:
                         </div>
@@ -638,7 +721,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                           defaultValue='$243.00'
                           className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>

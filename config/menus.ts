@@ -8,6 +8,9 @@ import {
   EntradaProducto,
   Entry,
   Exit,
+  Compras,
+  Money,
+  Money3,
 } from '@/components/svg'
 
 export interface MenuItemProps {
@@ -43,29 +46,44 @@ export const menusConfig = {
         title: 'menu',
       },
       {
-        title: 'Entrada',
-        icon: Entry,
+        title: 'Compras',
+        icon: Compras,
         href: '/dashboard',
         child: [
           {
-            title: 'Nuevo producto',
-            href: '/dashboard/products',
+            title: 'Nueva Factura',
+            href: '/dashboard/enter-invoice',
+            icon: Cart,
+          },
+          {
+            title: 'Historial Facturas',
+            href: '/dashboard/#',
             icon: Graph,
           },
           {
-            title: 'Ingresar Factura',
-            href: '/dashboard/enter-invoice',
-            icon: Cart,
+            title: 'Proveedores',
+            href: '/dashboard/#',
+            icon: Graph,
           },
         ],
       },
       {
-        title: 'Salida',
-        icon: Exit,
+        title: 'Ventas',
+        icon: Money,
         href: '/dashboard',
         child: [
           {
-            title: 'Facturar ventas',
+            title: 'Clientes',
+            href: '/dashboard/#',
+            icon: Graph,
+          },
+          {
+            title: 'Registrar Venta',
+            href: '/dashboard/invoice-sales',
+            icon: Graph,
+          },
+          {
+            title: 'Historial Venta',
             href: '/dashboard/invoice-sales',
             icon: Graph,
           },
@@ -87,14 +105,25 @@ export const menusConfig = {
         href: '/dashboard',
         child: [
           {
-            title: 'Productos',
+            title: 'Administrar Inventario',
+            href: '#',
+            icon: Cart,
+          },
+
+          {
+            title: 'Nuevo Producto',
+            href: '/dashboard/products',
+            icon: Graph,
+          },
+          {
+            title: 'Categoria Productos',
             href: '/dashboard/#',
             icon: Graph,
           },
           {
-            title: 'Bodega',
-            href: '#',
-            icon: Cart,
+            title: 'Gastos',
+            href: '/dashboard/#',
+            icon: Graph,
           },
         ],
       },
@@ -124,7 +153,7 @@ export const menusConfig = {
             icon: ClipBoard,
           },
           {
-            title: 'Pedidos',
+            title: 'Órdenes de Compra',
             href: '/dashboard/#',
             icon: ClipBoard,
           },
@@ -136,24 +165,29 @@ export const menusConfig = {
         href: '/dashboard',
         child: [
           {
-            title: 'Entradas',
+            title: 'Ventas',
             href: '#',
             icon: Graph,
           },
           {
-            title: 'Salidas',
+            title: 'Compras',
             href: '#',
             icon: Graph,
           },
           {
             title: 'Inventario',
-            href: '/dashboard/ecommerce',
-            icon: Cart,
+            href: '#',
+            icon: Graph,
           },
           {
-            title: 'Bodega',
+            title: 'Gastos',
             href: '#',
-            icon: Cart,
+            icon: Graph,
+          },
+          {
+            title: 'Reporte Contable',
+            href: '#',
+            icon: Graph,
           },
         ],
       },
@@ -163,23 +197,17 @@ export const menusConfig = {
         href: '/dashboard',
         child: [
           {
-            title: 'Proveedores',
-            href: '#',
-            icon: Graph,
-          },
-          {
-            title: 'Marcas',
-            href: '/dashboard/#',
-            icon: Cart,
-          },
-          {
-            title: 'Catagorias  productos ',
+            title: 'Perfil de usuario',
             href: '/dashboard/#',
             icon: ClipBoard,
           },
-
           {
-            title: 'Usuarios',
+            title: 'Cuentas contables',
+            href: '/dashboard/#',
+            icon: ClipBoard,
+          },
+          {
+            title: 'Ajuste de la aplicacion',
             href: '/dashboard/#',
             icon: ClipBoard,
           },

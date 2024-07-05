@@ -65,7 +65,7 @@ export default function Productpage() {
               />
             </div>
 
-            <div className='col-span-2 md:col-span-1 flex flex-col gap-2'>
+            {/* <div className='col-span-2 md:col-span-1 flex flex-col gap-2'>
               <Label htmlFor='state'>Proveedor</Label>
               <Select>
                 <SelectTrigger size='lg'>
@@ -82,7 +82,7 @@ export default function Productpage() {
                   <SelectItem value='chiche'>La chiche</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
             <div className='col-span-2 md:col-span-1 flex flex-col gap-2'>
               <Label htmlFor='state'>Categoria</Label>
               <Select>
