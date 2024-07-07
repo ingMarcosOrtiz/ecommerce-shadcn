@@ -68,6 +68,16 @@ import {
   InputGroupText,
 } from '@/components/ui/input-group'
 import { CleaveInput } from '@/components/ui/cleave'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+
 registerLocale('es', es)
 
 interface Props {
@@ -79,26 +89,24 @@ interface Props {
   }
 }
 
-const schema = z.object({
-  title: z.string().min(3, { message: 'Required' }),
-})
+const invoices = [
+  {
+    invoice: 'INV001',
+    paymentStatus: 'Paid',
+    totalAmount: '$250.00',
+    paymentMethod: 'Credit Card',
+  },
+  {
+    invoice: 'INV002',
+    paymentStatus: 'Pending',
+    totalAmount: '$150.00',
+    paymentMethod: 'PayPal',
+  },
+]
 
 export default function EnterInvoicePageView({ trans }: Props) {
-  const [date, setDate] = useState<Date[]>([])
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [startDate2, setStartDate2] = useState<Date>(new Date())
-
-  const {
-    register,
-    control,
-    reset,
-    setValue,
-    formState: { errors },
-    handleSubmit,
-  } = useForm({
-    resolver: zodResolver(schema),
-    mode: 'all',
-  })
 
   return (
     <>
@@ -174,25 +182,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       id='fullName5'
                     />
                   </div>
-
-                  {/* <div className='flex flex-col gap-1'>
-                    <Label htmlFor='state'>Proveedor</Label>
-                    <Select>
-                      <SelectTrigger size='lg'>
-                        <SelectValue placeholder='Selecionar Proveedor' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value='pino'>Pino & Pino</SelectItem>
-                        <SelectItem value='relax'>Relax</SelectItem>
-                        <SelectItem value='edredona'>Edredona</SelectItem>
-                        <SelectItem value='tauro'>Tauro</SelectItem>
-                        <SelectItem value='dario'>Dario</SelectItem>
-                        <SelectItem value='espumado'>Espumado</SelectItem>
-                        <SelectItem value='home'>Home Center</SelectItem>
-                        <SelectItem value='chiche'>La chiche</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div> */}
                   <div className='flex flex-col gap-1'>
                     <Label htmlFor='formadepago'>Tipo de compra</Label>
                     <Select>
@@ -233,56 +222,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                     />
                   </div>
                   <div className='flex flex-col gap-1'>
-                    {/* <Label className='text-default-600' htmlFor='fullName5'>
-                      Fecha de Vencimiento */}
-                    {/* {date.length > 0 && (
-                        // <p>Fecha seleccionada: {date[0].toDateString()}</p>
-                        <p>
-                          {format(date[0], "EEEE dd 'de' MMMM 'de' yyyy", {
-                            locale: es,
-                          })}
-                        </p>
-                        // <p>Fecha para guardar en bd:  {date[0].toISOString().split('T')[0]}</p>
-                      )} */}
-                    {/* </Label> */}
-
-                    {/* ********* */}
-
-                    {/* <Label htmlFor='startDate' className='text-default-600'>
-                      Fecha de Vencimiento
-                    </Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant='outline'
-                          className={cn(
-                            'w-full justify-between text-left font-normal border-default-200 text-default-600',
-                            !startDate && 'text-muted-foreground'
-                          )}>
-                          {startDate ? (
-                            formatDate(startDate)
-                          ) : (
-                            <span>Pick a date</span>
-                          )}
-                          <CalendarIcon className='h-4 w-4 ' />
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0'>
-                        <Controller
-                          name='startDate'
-                          control={control}
-                          render={({ field }) => (
-                            <Calendar
-                              mode='single'
-                              selected={startDate}
-                              onSelect={(date) => setStartDate(date as Date)}
-                              initialFocus
-                            />
-                          )}
-                        />
-                      </PopoverContent>
-                    </Popover> */}
-
                     {/* ****** */}
                     <Label htmlFor='startDate'>Fecha de Vencimiento</Label>
                     <DatePicker
@@ -297,93 +236,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         }
                       }}
                     />
-                    {/* <div className='relative'>
-                      <Flatpickr
-                        id='datePiker'
-                        // options={{ enableTime: true, dateFormat: 'Y-m-d H:i' }}
-                        options={{
-                          dateFormat: 'Y-m-d',
-                          locale: 'es',
-                          altFormat: 'F j, Y',
-                          altInput: false,
-                          // allowInput: true,
-                        }}
-                        value={date}
-                        onChange={
-                          (selectedDates: Date[]) => setDate(selectedDates)
-                          // console.log('fecha', selectedDates)
-                        }
-                        className='w-full border border-default-300 bg-background text-default-500  focus:outline-none h-10 rounded-md px-2 placeholder:text-default-500'
-                        placeholder='fecha'
-                      />
-                      <Icon
-                        icon='heroicons:calendar-days'
-                        className='w-5 h-5 absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 text-default-400 '
-                      />
-                    </div> */}
-
-                    {/* {date.length > 0 && (
-                      <span className='text-default-600 text-[10px]'>
-                        {format(date[0], "EEEE dd 'de' MMMM 'de' yyyy", {
-                          locale: es,
-                        })}
-                      </span>
-                    )} */}
-
-                    {/* <div>
-                      <Label
-                        htmlFor='priority'
-                        className='mb-1.5 text-default-600'>
-                        Due Date
-                      </Label>
-
-                      <div className='relative'>
-                        <Input placeholder='Select Date' />
-
-                        <CalendarDays className='w-4 h-4 text-default-400 absolute top-1/2 right-2 -translate-y-1/2' />
-                        <div
-                          className={cn(
-                            'absolute bottom-10 left-0 w-[300px] bg-background z-20 hidden',
-                            {
-                              block: openDate,
-                            }
-                          )}></div>
-                      </div>
-                    </div> */}
                   </div>
-                  {/* <div className='flex flex-col gap-1'>
-                    <Label htmlFor='estado'>Estado</Label>
-                    <Select>
-                      <SelectTrigger size='lg'>
-                        <SelectValue placeholder='Selecionar Estado' />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value='crdito'>Aprobado</SelectItem>
-                        <SelectItem value='devolucion'>Devolucion</SelectItem>
-                        <SelectItem value='anulado'>Anulado</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div> */}
-
-                  {/* <div className='flex flex-col gap-1'>
-                    <Label htmlFor='costoenvio'>Costo Total de envio</Label>
-
-                    <InputGroup>
-                      <InputGroupText className='px-1'>
-                        <Icon className='text-xl' icon='healthicons:dollar' />
-                      </InputGroupText>
-                    
-                      <CleaveInput
-                        id='nu'
-                        options={{
-                          numeral: true,
-                          delimiter: ',',
-                          blocks: [3, 3, 3],
-                        }}
-                        placeholder='valor'
-                      />
-                    </InputGroup>
-                  </div> */}
 
                   <div className='flex flex-col gap-1'>
                     <Label htmlFor='costoenvio'>Subir Archivo factura</Label>
@@ -394,46 +247,148 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       variant='flat'
                     />
                   </div>
-                  {/* <div className='flex flex-col gap-1'>
-                    <Label htmlFor='cProductos'>Cantidad Total Productos</Label>
-                    <Input
-                      className='w-full'
-                      size='lg'
-                      type='text'
-                      placeholder='total de productos'
-                      id='cProductos'
-                    />
-                  </div> */}
                 </div>
-                {/* <div className='mt-8 flex justify-between flex-wrap gap-4'>
-                  <div className='w-full 2xl:max-w-[400px] space-y-2'>
-                    <div className='text-base font-semibold text-default-800 pb-1'>
-                      Billing From:
-                    </div>
-                    <Input type='text' placeholder='Company Name' />
-                    <Input type='email' placeholder='Company Email' />
-                    <Input type='number' placeholder='Company Phone No' />
-                    <Textarea placeholder='Comapny Address' />
-                  </div>
-                  <div className='w-full 2xl:max-w-[400px] space-y-2'>
-                    <div className='text-base font-semibold text-default-800 pb-1'>
-                      Billing To:
-                    </div>
-                    <Input type='text' placeholder='Customer Name' />
-                    <Input type='email' placeholder='Customer Email' />
-                    <Input type='number' placeholder='Customer Phone No' />
-                    <Textarea placeholder='Customer Address' />
-                  </div>
-                </div> */}
+
+                {/* START - MODAL */}
                 <section className='mt-9'>
-                  <Button className='text-xs whitespace-nowrap'>
-                    <Icon
-                      icon='heroicons:magnifying-glass'
-                      className='w-5 h-5 ltr:mr-2 rtl:ml-2'
-                    />
-                    Buscar Productos
-                  </Button>
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button className='text-xs whitespace-nowrap'>
+                        <Icon
+                          icon='heroicons:magnifying-glass'
+                          className='w-5 h-5 ltr:mr-2 rtl:ml-2'
+                        />
+                        Buscar Productos
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent
+                      size='4xl'
+                      overlayClass='backdrop-blur-3 bg-default-400/40'>
+                      <DialogHeader>
+                        <DialogTitle className='text-base text-center capitalize border-b-2 py-1 font-medium text-default-700 '>
+                          BUSCAR PRODUCTOS
+                        </DialogTitle>
+                      </DialogHeader>
+
+                      <section className='mt-4'>
+                        <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
+                          <div className='flex flex-col gap-1'>
+                            <Label htmlFor='bcp'>Buscar por codigo</Label>
+                            <InputGroup>
+                              <Input
+                                id='bcp'
+                                type='text'
+                                placeholder='Buscar por codigo producto'
+                              />
+                              <InputGroupButton className='cursor-pointer'>
+                                <Button
+                                  size='sm'
+                                  title='Buscar producto'
+                                  onClick={() => alert('Buscar producto')}>
+                                  <Icon icon='heroicons:magnifying-glass' />
+                                </Button>
+                              </InputGroupButton>
+                            </InputGroup>
+                          </div>
+
+                          <div className='flex flex-col gap-1'>
+                            <Label htmlFor='bxnp'>Buscar por nombre</Label>
+
+                            <InputGroup>
+                              <Input
+                                id='bxnp'
+                                type='text'
+                                placeholder='Buscar por nombre producto'
+                              />
+                              <InputGroupButton className='cursor-pointer'>
+                                <Button
+                                  size='sm'
+                                  title='Buscar producto'
+                                  onClick={() => alert('Buscar producto')}>
+                                  <Icon icon='heroicons:magnifying-glass' />
+                                </Button>
+                              </InputGroupButton>
+                            </InputGroup>
+                          </div>
+                        </div>
+                      </section>
+
+                      <div className='border border-default-300 rounded-md'>
+                        <div className='overflow-x-auto'>
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead className='p-0 h-10'></TableHead>
+                                <TableHead className='h-10 text-center border-l  border-default-300 text-default-600'>
+                                  Codigo
+                                </TableHead>
+                                <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
+                                  Productos
+                                </TableHead>
+                                <TableHead className='h-10 text-center border-l border-default-300  text-default-600'>
+                                  Proveedor
+                                </TableHead>
+
+                                <TableHead className='h-10 text-center  text-default-600 border-l border-default-300'>
+                                  Agregar
+                                </TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {invoices.map((invoice, index) => (
+                                <TableRow key={invoice.invoice}>
+                                  <TableCell className='text-right text-xs p-1'>
+                                    {index + 1}
+                                  </TableCell>
+                                  <TableCell className='text-xs border-l border-default-300 text-center p-1'>
+                                    {invoice.invoice}
+                                  </TableCell>
+                                  <TableCell className='text-xs border-l border-default-300 text-center p-1'>
+                                    {invoice.paymentStatus}
+                                  </TableCell>
+                                  <TableCell className='text-xs border-l border-default-300 text-center p-1'>
+                                    {invoice.paymentMethod}
+                                  </TableCell>
+
+                                  <TableCell className='text-xs border-l border-default-300 p-1'>
+                                    <div className='text-center'>
+                                      <DialogClose asChild>
+                                        <Button
+                                          title='Agregar'
+                                          size='icon'
+                                          // variant='outline'
+                                          className='h-6 w-6'
+                                          color='success'>
+                                          <Icon
+                                            icon='heroicons:plus'
+                                            className=' h-4 w-4  '
+                                          />
+                                        </Button>
+                                      </DialogClose>
+                                    </div>
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </div>
+
+                      <DialogFooter className='mt-8'>
+                        <DialogClose asChild>
+                          <Button type='submit' variant='outline'>
+                            Cancelar
+                          </Button>
+                        </DialogClose>
+                        {/* <Button type='submit' color='primary'>
+                          Agregar
+                        </Button> */}
+                      </DialogFooter>
+                    </DialogContent>
+                  </Dialog>
                 </section>
+                {/* END - MODAL */}
+
                 <div className='border border-default-300 rounded-md mt-9'>
                   <div className='overflow-x-auto'>
                     <Table>
@@ -568,101 +523,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         <div className='text-sm text-right border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
                           <span>$ 927.985</span>
                         </div>
-                        {/* <Input
-                          disabled
-                          defaultValue='$ 927.985'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        /> */}
                       </div>
-                      {/* <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Coupon Discount:
-                        </div>
-                        <div className='w-full sm:w-[148px] flex'>
-                          <Input
-                            className=' text-xs font-medium  text-default-900 appearance-none accent-transparent rounded ltr:rounded-r-none rtl:rounded-l-none rtl:border-l-0  ltr:border-r-0'
-                            type='number'
-                            defaultValue='34.36'
-                          />
-                          <Select>
-                            <SelectTrigger className='w-14 rounded ltr:rounded-l-none rtl:rounded-r-none h-9 pr-1 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:mt-1'>
-                              <SelectValue placeholder='$' />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value='$'>$</SelectItem>
-                              <SelectItem value='eur'>
-                                <Euro className='w-3 h-3' />
-                              </SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Tax:
-                        </div>
-                        <div className='w-full sm:w-[148px] flex'>
-                          <Input
-                            className=' text-xs font-medium  text-default-900 appearance-none accent-transparent rounded ltr:rounded-r-none rtl:rounded-l-none rtl:border-l-0  ltr:border-r-0'
-                            type='number'
-                            defaultValue='0.82'
-                          />
-                          <Select>
-                            <SelectTrigger className='w-14 rounded ltr:rounded-l-none rtl:rounded-r-none h-9 pr-1 [&>svg]:h-4 [&>svg]:w-4 [&>svg]:mt-1'>
-                              <SelectValue placeholder='%' />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value='%'>%</SelectItem>
-                              <SelectItem value='flat'>$</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Shipping:
-                        </div>
-                        <Input
-                          defaultValue='$14.12'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        />
-                      </div>
-                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Due Till Date:
-                        </div>
-                        <Input
-                          defaultValue='$0.00'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        />
-                      </div>
-                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Total:
-                        </div>
-                        <Input
-                          defaultValue='$1243.00'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        />
-                      </div>
-                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Amount Paid:
-                        </div>
-                        <Input
-                          defaultValue='$1000.00'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        />
-                      </div>
-                      <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
-                        <div className='text-sm font-medium text-default-600'>
-                          Balance Due:
-                        </div>
-                        <Input
-                          defaultValue='$243.00'
-                          className='text-xs font-medium  text-default-900 rounded w-full sm:w-[148px]'
-                        />
-                      </div> */}
                     </div>
                   </div>
                 </div>
@@ -703,69 +564,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                 </Button>
               </CardFooter>
             </Card>
-            {/* <div className='col-span-12 xl:col-span-4'>
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Payment Method</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className='space-y-3'>
-                      <Checkbox
-                        defaultChecked
-                        id='bank'
-                        className='border-default-300'>
-                        {' '}
-                        Bank Account
-                      </Checkbox>
-                      <Checkbox id='paypal' className='border-default-300'>
-                        {' '}
-                        Paypal
-                      </Checkbox>
-                      <Checkbox id='credit' className='border-default-300'>
-                        {' '}
-                        Credit/Debit Card
-                      </Checkbox>
-                      <Checkbox id='transfer' className='border-default-300'>
-                        {' '}
-                        UPI Transfer
-                      </Checkbox>
-                      <Checkbox id='cod' className='border-default-300'>
-                        {' '}
-                        Cash On Delivery (COD)
-                      </Checkbox>
-                    </div>
-                    <div className='mt-6'>
-                      <Label
-                        htmlFor='name'
-                        className='mb-2 text-xs font-medium text-default-600'>
-                        Card Holder Name:
-                      </Label>
-                      <Input type='text' id='name' placeholder='Enter name' />
-                    </div>
-                    <div className='mt-3'>
-                      <Label
-                        htmlFor='cardNumber'
-                        className='mb-2 text-xs font-medium text-default-600'>
-                        Card Number:
-                      </Label>
-                      <Input
-                        type='number'
-                        id='cardNumber'
-                        placeholder='Enter Card Number'
-                      />
-                    </div>
-                    <Alert
-                      color='warning'
-                      variant='soft'
-                      className='mt-6 border border-orange-300'>
-                      <AlertDescription>
-                        Please make sure to pay the invoice bill within 20 to 30
-                        days before it expires.
-                      </AlertDescription>
-                    </Alert>
-                  </CardContent>
-                </Card>
-              </div> */}
           </div>
         </div>
       </div>
