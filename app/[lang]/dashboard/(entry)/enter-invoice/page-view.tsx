@@ -77,6 +77,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 registerLocale('es', es)
 
@@ -94,19 +100,112 @@ const invoices = [
     invoice: 'INV001',
     paymentStatus: 'Paid',
     totalAmount: '$250.00',
-    paymentMethod: 'Credit Card',
+    paymentMethod: 'Pino & Pino',
   },
   {
     invoice: 'INV002',
     paymentStatus: 'Pending',
     totalAmount: '$150.00',
-    paymentMethod: 'PayPal',
+    paymentMethod: 'Relax S.A.S',
+  },
+]
+
+const addItemsProducts = [
+  {
+    cod: '1982459989',
+    product: 'colchon caribbean pride 100x190',
+    cantidad: 0,
+    unitPrice: 0,
+    iva: 0,
+    valorIva: 0,
+    total: 0,
   },
 ]
 
 export default function EnterInvoicePageView({ trans }: Props) {
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [startDate2, setStartDate2] = useState<Date>(new Date())
+  const [unitPrice, setUnitPrice] = useState('')
+
+  function handlePriceChange(e: any, index: number) {
+    let priceItem = document.getElementById(`price-item-${index}`)
+    // Verifica que priceItem no sea null y que e.target.rawValue sea válido
+    if (priceItem && e.target && e.target.rawValue !== undefined) {
+      priceItem.textContent = e.target.rawValue
+    }
+  }
+
+  function handleCantChange(
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) {
+    let cantItem = document.getElementById(`cant-item-${index}`)
+    if (cantItem && e.target && e.target.value !== undefined) {
+      cantItem.textContent = e.target.value
+    }
+  }
+
+  const handleIvaChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const ivaItem = document.getElementById(`iva-item-${index}`)
+    const cantItem = document.getElementById(`cant-item-${index}`)
+    const priceItem = document.getElementById(`price-item-${index}`)
+    const valorIvaItem = document.getElementById(`valor-iva-${index}`)
+
+    if (
+      ivaItem &&
+      cantItem &&
+      priceItem &&
+      valorIvaItem &&
+      e.target.value !== undefined
+    ) {
+      const ivaValue = parseFloat(e.target.value)
+      const cantidad = parseFloat(cantItem.textContent || '0')
+      const priceUnitario = parseFloat(priceItem.textContent || '0')
+
+      if (isNaN(ivaValue) || isNaN(cantidad) || isNaN(priceUnitario)) {
+        return
+      }
+
+      ivaItem.textContent = e.target.value
+
+      const valorTotalIvaItem = priceUnitario * (ivaValue / 100) * cantidad
+      if (typeof valorIvaItem.textContent === 'string') {
+        valorIvaItem.textContent = Math.ceil(
+          parseFloat(valorTotalIvaItem.toFixed(2))
+        ).toString()
+      }
+    }
+  }
+
+  function handleEditItem(index: number) {
+    let cantItem = document.getElementById(`cant-item-${index}`)
+    let cantInputItem = document.getElementById(`cant-input-item-${index}`)
+    let priceInputItem = document.getElementById(`price-input-item-${index}`)
+    let priceItem = document.getElementById(`price-item-${index}`)
+
+    let ivaItem = document.getElementById(`iva-item-${index}`)
+    let ivaInputItem = document.getElementById(`iva-input-item-${index}`)
+
+    if (
+      cantItem &&
+      cantInputItem &&
+      priceInputItem &&
+      priceItem &&
+      ivaItem &&
+      ivaInputItem
+    ) {
+      cantItem.classList.toggle('hidden')
+      cantInputItem.classList.toggle('hidden')
+      priceInputItem.classList.toggle('hidden')
+      priceItem.classList.toggle('hidden')
+
+      ivaItem.classList.toggle('hidden')
+      ivaInputItem.classList.toggle('hidden')
+    }
+  }
 
   return (
     <>
@@ -262,6 +361,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       </Button>
                     </DialogTrigger>
                     <DialogContent
+                      // className='top-2 translate-y-0'
                       size='4xl'
                       overlayClass='backdrop-blur-3 bg-default-400/40'>
                       <DialogHeader>
@@ -352,19 +452,17 @@ export default function EnterInvoicePageView({ trans }: Props) {
 
                                   <TableCell className='text-xs border-l border-default-300 p-1'>
                                     <div className='text-center'>
-                                      <DialogClose asChild>
-                                        <Button
-                                          title='Agregar'
-                                          size='icon'
-                                          // variant='outline'
-                                          className='h-6 w-6'
-                                          color='success'>
-                                          <Icon
-                                            icon='heroicons:plus'
-                                            className=' h-4 w-4  '
-                                          />
-                                        </Button>
-                                      </DialogClose>
+                                      <Button
+                                        title='Agregar'
+                                        size='icon'
+                                        // variant='outline'
+                                        className='h-6 w-6'
+                                        color='success'>
+                                        <Icon
+                                          icon='heroicons:plus'
+                                          className=' h-4 w-4  '
+                                        />
+                                      </Button>
                                     </div>
                                   </TableCell>
                                 </TableRow>
@@ -380,9 +478,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                             Cancelar
                           </Button>
                         </DialogClose>
-                        {/* <Button type='submit' color='primary'>
-                          Agregar
-                        </Button> */}
                       </DialogFooter>
                     </DialogContent>
                   </Dialog>
@@ -401,16 +496,16 @@ export default function EnterInvoicePageView({ trans }: Props) {
                             Productos
                           </TableHead>
 
-                          <TableHead className='text-default-600 uppercase '>
-                            Iva %
-                          </TableHead>
-
                           <TableHead className='text-default-600 uppercase'>
                             Cant
                           </TableHead>
 
                           <TableHead className='text-default-600 uppercase whitespace-nowrap'>
                             Precio Unit.
+                          </TableHead>
+
+                          <TableHead className='text-default-600 uppercase '>
+                            Iva %
                           </TableHead>
 
                           {/* <TableHead className='text-default-600 uppercase '>
@@ -429,61 +524,113 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         </TableRow>
                       </TableHeader>
                       <TableBody className='[&_tr:last-child]:border-1 '>
-                        <TableRow>
-                          <TableCell className='max-w-[100px] text-[10px] overflow-hidden break-words'>
-                            1982459989
-                          </TableCell>
-                          <TableCell className='  lowercase'>
-                            COLCHON CARIBBEAN PRIDE 100X190
-                          </TableCell>
-                          <TableCell>
-                            <Input
-                              className='text-start w-[50px] font-medium text-default-900 rounded '
-                              type='text'
-                              placeholder='0'
-                            />
-                          </TableCell>
-                          <TableCell>
-                            <Input
-                              placeholder='0'
-                              type='number'
-                              className='w-[65px] text-default-900 appearance-none accent-transparent rounded font-medium'
-                            />
-                          </TableCell>
-                          <TableCell>
-                            {/* <Input
-                              placeholder='0'
-                              className='text-start font-medium  text-default-900 rounded w-[120px]'
-                            /> */}
-                            <CleaveInput
-                              className='text-start h-[35px] font-medium  text-default-900 rounded w-[120px]'
-                              id='nu'
-                              options={{
-                                numeral: true,
-                                delimiter: ',',
-                                blocks: [3, 3, 3],
-                              }}
-                              placeholder='precio'
-                            />
-                          </TableCell>
-                          {/* <TableCell className='whitespace-nowrap'>
-                            $ 2,625
-                          </TableCell> */}
-                          <TableCell className='whitespace-nowrap'>
-                            $ 148.165
-                          </TableCell>
+                        {addItemsProducts.map((item, index) => (
+                          <TableRow key={item.cod}>
+                            <TableCell className='max-w-[100px] text-[10px] overflow-hidden break-words'>
+                              {item.cod}
+                            </TableCell>
+                            <TableCell className='  lowercase'>
+                              {item.product}
+                            </TableCell>
+                            <TableCell>
+                              <Input
+                                id={`cant-input-item-${index}`}
+                                onChange={(event) =>
+                                  handleCantChange(event, index)
+                                }
+                                placeholder='0'
+                                min={0}
+                                type='number'
+                                className='w-[65px] text-default-900 appearance-none accent-transparent rounded font-medium hidden'
+                              />
+                              <div className='' id={`cant-item-${index}`}>
+                                {item.cantidad}
+                              </div>
+                            </TableCell>
 
-                          <TableCell className='whitespace-nowrap text-right'>
-                            <div className='flex items-center justify-center gap-2'>
-                              $ 779,820
-                              <Trash2 className='w-4 h-4 text-warning' />
-                            </div>
-                          </TableCell>
+                            <TableCell>
+                              <CleaveInput
+                                id={`price-input-item-${index}`}
+                                className='text-start h-[35px] font-medium  text-default-900 rounded w-[120px] hidden'
+                                onChange={(event) =>
+                                  handlePriceChange(event, index)
+                                }
+                                options={{
+                                  numeral: true,
+                                  numeralThousandsGroupStyle: 'thousand',
+                                }}
+                                placeholder='precio'
+                              />
+                              <div className='' id={`price-item-${index}`}>
+                                {item.unitPrice}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Input
+                                id={`iva-input-item-${index}`}
+                                className='text-start w-[60px] font-medium text-default-900 rounded hidden'
+                                onChange={(event) =>
+                                  handleIvaChange(event, index)
+                                }
+                                min={0}
+                                type='number'
+                                placeholder='0'
+                              />
+                              <div className='' id={`iva-item-${index}`}>
+                                {item.iva}
+                              </div>
+                            </TableCell>
+                            <TableCell className='whitespace-nowrap'>
+                              <span className='' id={`valor-iva-${index}`}>
+                                {item.valorIva}
+                              </span>
+                            </TableCell>
 
-                          {/* <TableCell>
-                            <Trash2 className='w-4 h-4 text-warning' />
-                          </TableCell> */}
-                        </TableRow>
+                            <TableCell className='whitespace-nowrap text-right'>
+                              <div className='flex items-center justify-center gap-2'>
+                                <span id={`valor-total-${index}`}>
+                                  {item.total}
+                                </span>
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button
+                                        onClick={() => handleEditItem(index)}
+                                        size='icon'
+                                        variant='outline'
+                                        className=' h-6 w-6'
+                                        color='success'>
+                                        <Icon
+                                          icon='heroicons:pencil'
+                                          className='h-4 w-4'
+                                        />
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent color='success'>
+                                      <p>Editar</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                                <TooltipProvider>
+                                  <Tooltip>
+                                    <TooltipTrigger asChild>
+                                      <Button
+                                        variant='outline'
+                                        color='destructive'
+                                        className=' h-6 w-6'
+                                        size='icon'>
+                                        <Trash2 className='w-4 h-4 ' />
+                                      </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent color='destructive'>
+                                      <p>Estás seguro de eliminar ?</p>
+                                    </TooltipContent>
+                                  </Tooltip>
+                                </TooltipProvider>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        ))}
                       </TableBody>
                     </Table>
                   </div>

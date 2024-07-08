@@ -65,6 +65,11 @@ export const menusConfig = {
             href: '/dashboard/#',
             icon: Graph,
           },
+          {
+            title: 'Facturas x pagar',
+            href: '/dashboard/#',
+            icon: Graph,
+          },
         ],
       },
       {
