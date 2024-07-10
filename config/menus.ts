@@ -89,7 +89,7 @@ export const menusConfig = {
           },
           {
             title: 'Historial Venta',
-            href: '/dashboard/invoice-sales',
+            href: '/dashboard/#',
             icon: Graph,
           },
           {
@@ -213,7 +213,7 @@ export const menusConfig = {
           },
           {
             title: 'Ajuste de la aplicacion',
-            href: '/dashboard/#',
+            href: '/dashboard/setting',
             icon: ClipBoard,
           },
         ],

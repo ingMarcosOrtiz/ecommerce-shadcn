@@ -95,116 +95,135 @@ interface Props {
   }
 }
 
-const invoices = [
+const productsArray = [
   {
-    invoice: 'INV001',
-    paymentStatus: 'Paid',
-    totalAmount: '$250.00',
-    paymentMethod: 'Pino & Pino',
+    cod: '11',
+    product: 'COLCHON CARIBBEAN PRIDE GENERICO GENERICO 100X190',
+    categoria: 'Colchones',
   },
   {
-    invoice: 'INV002',
-    paymentStatus: 'Pending',
-    totalAmount: '$150.00',
-    paymentMethod: 'Relax S.A.S',
+    cod: '1982459989',
+    product: 'COLCHON CARIBBEAN PRIDE GENERICO GENERICO 140X190',
+    categoria: 'Colchones',
+  },
+  {
+    cod: '12907',
+    product: 'COLCHON RESORTADO GENERICO GENERICO 140X190',
+    categoria: 'Colchones',
+  },
+  {
+    cod: '13096',
+    product: 'COLCHON RESORTADO GENERICO GENERICO 100X190',
+    categoria: 'Colchones',
   },
 ]
 
-const addItemsProducts = [
-  {
-    cod: '1982459989',
-    product: 'colchon caribbean pride 100x190',
-    cantidad: 0,
-    unitPrice: 0,
-    iva: 0,
-    valorIva: 0,
-    total: 0,
-  },
-]
+interface ProductList {
+  code: string
+  name: string
+  quantity?: number
+  unitPrice?: number
+  tax?: number
+  taxValue?: number
+  totalPrice?: number
+  isEditing?: boolean
+}
 
 export default function EnterInvoicePageView({ trans }: Props) {
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [startDate2, setStartDate2] = useState<Date>(new Date())
-  const [unitPrice, setUnitPrice] = useState('')
+  const [productList, setProductList] = useState<ProductList[]>([])
+  const [subtotal, setSubtotal] = useState<number>(0)
+  const [iva, setIva] = useState<number>(0)
+  const [total, setTotal] = useState<number>(0)
 
-  function handlePriceChange(e: any, index: number) {
-    let priceItem = document.getElementById(`price-item-${index}`)
-    // Verifica que priceItem no sea null y que e.target.rawValue sea válido
-    if (priceItem && e.target && e.target.rawValue !== undefined) {
-      priceItem.textContent = e.target.rawValue
-    }
+  useEffect(() => {
+    calculateTotals()
+  }, [productList])
+
+  const calculateTotals = () => {
+    let newSubtotal = 0
+    let newIva = 0
+
+    productList.forEach((item) => {
+      newSubtotal += item.totalPrice || 0
+      newIva += item.taxValue || 0
+    })
+
+    setSubtotal(newSubtotal)
+    setIva(newIva)
+    setTotal(newSubtotal + newIva)
   }
 
-  function handleCantChange(
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) {
-    let cantItem = document.getElementById(`cant-item-${index}`)
-    if (cantItem && e.target && e.target.value !== undefined) {
-      cantItem.textContent = e.target.value
-    }
+  const handleEditItem = (index: number) => {
+    const newProductList = [...productList]
+    newProductList[index].isEditing = !newProductList[index].isEditing
+    setProductList(newProductList)
   }
 
-  const handleIvaChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
+  const handleInputChange = (
+    index: number,
+    field: keyof ProductList,
+    event: React.ChangeEvent<HTMLInputElement> | number
   ) => {
-    const ivaItem = document.getElementById(`iva-item-${index}`)
-    const cantItem = document.getElementById(`cant-item-${index}`)
-    const priceItem = document.getElementById(`price-item-${index}`)
-    const valorIvaItem = document.getElementById(`valor-iva-${index}`)
+    const newProductList = [...productList]
 
-    if (
-      ivaItem &&
-      cantItem &&
-      priceItem &&
-      valorIvaItem &&
-      e.target.value !== undefined
-    ) {
-      const ivaValue = parseFloat(e.target.value)
-      const cantidad = parseFloat(cantItem.textContent || '0')
-      const priceUnitario = parseFloat(priceItem.textContent || '0')
-
-      if (isNaN(ivaValue) || isNaN(cantidad) || isNaN(priceUnitario)) {
-        return
-      }
-
-      ivaItem.textContent = e.target.value
-
-      const valorTotalIvaItem = priceUnitario * (ivaValue / 100) * cantidad
-      if (typeof valorIvaItem.textContent === 'string') {
-        valorIvaItem.textContent = Math.ceil(
-          parseFloat(valorTotalIvaItem.toFixed(2))
-        ).toString()
-      }
+    let value: number
+    if (typeof event === 'number') {
+      value = event
+    } else {
+      value = parseFloat(event.target.value)
     }
+
+    newProductList[index] = {
+      ...newProductList[index],
+      [field]: value,
+    }
+
+    if (['quantity', 'unitPrice', 'tax'].includes(field)) {
+      const quantity = newProductList[index].quantity || 0
+      const unitPrice = newProductList[index].unitPrice || 0
+      const tax = newProductList[index].tax || 0
+
+      newProductList[index].totalPrice = quantity * unitPrice
+      newProductList[index].taxValue = Math.ceil(
+        unitPrice * (tax / 100) * quantity
+      )
+    }
+
+    setProductList(newProductList)
   }
 
-  function handleEditItem(index: number) {
-    let cantItem = document.getElementById(`cant-item-${index}`)
-    let cantInputItem = document.getElementById(`cant-input-item-${index}`)
-    let priceInputItem = document.getElementById(`price-input-item-${index}`)
-    let priceItem = document.getElementById(`price-item-${index}`)
+  const handleDeleteItem = (index: number) => {
+    const newProductList = [...productList]
+    newProductList.splice(index, 1)
+    setProductList(newProductList)
+  }
 
-    let ivaItem = document.getElementById(`iva-item-${index}`)
-    let ivaInputItem = document.getElementById(`iva-input-item-${index}`)
-
-    if (
-      cantItem &&
-      cantInputItem &&
-      priceInputItem &&
-      priceItem &&
-      ivaItem &&
-      ivaInputItem
-    ) {
-      cantItem.classList.toggle('hidden')
-      cantInputItem.classList.toggle('hidden')
-      priceInputItem.classList.toggle('hidden')
-      priceItem.classList.toggle('hidden')
-
-      ivaItem.classList.toggle('hidden')
-      ivaInputItem.classList.toggle('hidden')
+  const handleAddItem = (code: string, name: string) => {
+    // values por default
+    const newItem: ProductList = {
+      code,
+      name,
+      quantity: 0,
+      unitPrice: 0,
+      tax: 0,
+      taxValue: 0,
+      totalPrice: 0,
     }
+
+    // Verificar si el código ya existe
+    if (productList.some((item) => item.code === newItem.code)) {
+      alert('El código de producto ya está en uso.')
+      return
+    }
+
+    // Agregar el nuevo producto
+    setProductList([...productList, newItem])
+  }
+
+  const formatNumber = (number: number = 0): string => {
+    return number.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
   }
 
   return (
@@ -426,7 +445,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                                   Productos
                                 </TableHead>
                                 <TableHead className='h-10 text-center border-l border-default-300  text-default-600'>
-                                  Proveedor
+                                  Categoria
                                 </TableHead>
 
                                 <TableHead className='h-10 text-center  text-default-600 border-l border-default-300'>
@@ -435,24 +454,30 @@ export default function EnterInvoicePageView({ trans }: Props) {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {invoices.map((invoice, index) => (
-                                <TableRow key={invoice.invoice}>
+                              {productsArray.map((product, index) => (
+                                <TableRow key={product.cod}>
                                   <TableCell className='text-right text-xs p-1'>
                                     {index + 1}
                                   </TableCell>
                                   <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                                    {invoice.invoice}
+                                    {product.cod}
                                   </TableCell>
                                   <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                                    {invoice.paymentStatus}
+                                    {product.product}
                                   </TableCell>
                                   <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                                    {invoice.paymentMethod}
+                                    {product.categoria}
                                   </TableCell>
 
                                   <TableCell className='text-xs border-l border-default-300 p-1'>
                                     <div className='text-center'>
                                       <Button
+                                        onClick={() =>
+                                          handleAddItem(
+                                            product.cod,
+                                            product.product
+                                          )
+                                        }
                                         title='Agregar'
                                         size='icon'
                                         // variant='outline'
@@ -508,10 +533,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                             Iva %
                           </TableHead>
 
-                          {/* <TableHead className='text-default-600 uppercase '>
-                            Envio
-                          </TableHead> */}
-
                           <TableHead className='text-default-600 uppercase whitespace-nowrap'>
                             Valor Iva
                           </TableHead>
@@ -519,78 +540,79 @@ export default function EnterInvoicePageView({ trans }: Props) {
                           <TableHead className='text-default-600 uppercase whitespace-nowrap'>
                             Total
                           </TableHead>
-
-                          {/* <TableHead className='text-default-600 uppercase '></TableHead> */}
                         </TableRow>
                       </TableHeader>
                       <TableBody className='[&_tr:last-child]:border-1 '>
-                        {addItemsProducts.map((item, index) => (
-                          <TableRow key={item.cod}>
+                        {productList.map((item, index) => (
+                          <TableRow key={item.code}>
                             <TableCell className='max-w-[100px] text-[10px] overflow-hidden break-words'>
-                              {item.cod}
+                              {item.code}
                             </TableCell>
-                            <TableCell className='  lowercase'>
-                              {item.product}
-                            </TableCell>
-                            <TableCell>
-                              <Input
-                                id={`cant-input-item-${index}`}
-                                onChange={(event) =>
-                                  handleCantChange(event, index)
-                                }
-                                placeholder='0'
-                                min={0}
-                                type='number'
-                                className='w-[65px] text-default-900 appearance-none accent-transparent rounded font-medium hidden'
-                              />
-                              <div className='' id={`cant-item-${index}`}>
-                                {item.cantidad}
-                              </div>
-                            </TableCell>
-
-                            <TableCell>
-                              <CleaveInput
-                                id={`price-input-item-${index}`}
-                                className='text-start h-[35px] font-medium  text-default-900 rounded w-[120px] hidden'
-                                onChange={(event) =>
-                                  handlePriceChange(event, index)
-                                }
-                                options={{
-                                  numeral: true,
-                                  numeralThousandsGroupStyle: 'thousand',
-                                }}
-                                placeholder='precio'
-                              />
-                              <div className='' id={`price-item-${index}`}>
-                                {item.unitPrice}
-                              </div>
+                            <TableCell className='lowercase'>
+                              {item.name}
                             </TableCell>
                             <TableCell>
-                              <Input
-                                id={`iva-input-item-${index}`}
-                                className='text-start w-[60px] font-medium text-default-900 rounded hidden'
-                                onChange={(event) =>
-                                  handleIvaChange(event, index)
-                                }
-                                min={0}
-                                type='number'
-                                placeholder='0'
-                              />
-                              <div className='' id={`iva-item-${index}`}>
-                                {item.iva}
-                              </div>
+                              {item.isEditing ? (
+                                <Input
+                                  value={item.quantity}
+                                  onChange={(e) =>
+                                    handleInputChange(index, 'quantity', e)
+                                  }
+                                  placeholder='0'
+                                  min={0}
+                                  type='number'
+                                  className='w-[65px] text-default-900 appearance-none accent-transparent rounded font-medium'
+                                />
+                              ) : (
+                                <div>{item.quantity}</div>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {item.isEditing ? (
+                                <CleaveInput
+                                  value={item.unitPrice}
+                                  className='text-start h-[35px] font-medium text-default-900 rounded w-[120px]'
+                                  onChange={(e) =>
+                                    handleInputChange(
+                                      index,
+                                      'unitPrice',
+                                      parseFloat(
+                                        e.target.value.replace(/,/g, '')
+                                      )
+                                    )
+                                  }
+                                  options={{
+                                    numeral: true,
+                                    numeralThousandsGroupStyle: 'thousand',
+                                  }}
+                                  placeholder='precio'
+                                />
+                              ) : (
+                                <div>$ {formatNumber(item.unitPrice)}</div>
+                              )}
+                            </TableCell>
+                            <TableCell>
+                              {item.isEditing ? (
+                                <Input
+                                  value={item.tax}
+                                  className='text-start w-[60px] font-medium text-default-900 rounded'
+                                  onChange={(e) =>
+                                    handleInputChange(index, 'tax', e)
+                                  }
+                                  min={0}
+                                  type='number'
+                                  placeholder='0'
+                                />
+                              ) : (
+                                <div>{item.tax}%</div>
+                              )}
                             </TableCell>
                             <TableCell className='whitespace-nowrap'>
-                              <span className='' id={`valor-iva-${index}`}>
-                                {item.valorIva}
-                              </span>
+                              <span>$ {formatNumber(item.taxValue)}</span>
                             </TableCell>
-
                             <TableCell className='whitespace-nowrap text-right'>
                               <div className='flex items-center justify-center gap-2'>
-                                <span id={`valor-total-${index}`}>
-                                  {item.total}
-                                </span>
+                                <span>$ {formatNumber(item.totalPrice)}</span>
                                 <TooltipProvider>
                                   <Tooltip>
                                     <TooltipTrigger asChild>
@@ -615,6 +637,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                                   <Tooltip>
                                     <TooltipTrigger asChild>
                                       <Button
+                                        onClick={() => handleDeleteItem(index)}
                                         variant='outline'
                                         color='destructive'
                                         className=' h-6 w-6'
@@ -635,14 +658,6 @@ export default function EnterInvoicePageView({ trans }: Props) {
                     </Table>
                   </div>
                   <div className='flex flex-col justify-end sm:flex-row gap-4 py-5 px-6'>
-                    {/* add invoice */}
-                    {/* <div className='flex-1'>
-                      <Button className='text-xs whitespace-nowrap'>
-                        {' '}
-                        <Plus className='w-5 h-5 ltr:mr-2 rtl:ml-2' /> Add
-                        Invoice Item{' '}
-                      </Button>
-                    </div> */}
                     {/* invoice info */}
                     <div className='flex-none flex flex-col sm:items-end gap-y-2'>
                       <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
@@ -651,7 +666,8 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         </div>
 
                         <div className='text-sm text-right border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
-                          $ 779.820
+                          {/* acá se debe mostrar el rusultado de la suma total de toda la columna "Total" */}
+                          $ {formatNumber(subtotal)}
                         </div>
                       </div>
                       <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
@@ -659,7 +675,8 @@ export default function EnterInvoicePageView({ trans }: Props) {
                           Iva 19%
                         </div>
                         <div className='text-sm text-right  border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
-                          $ 148.165
+                          {/* acá se debe mostrar el rusultado de la suma total de toda la columna "Valor Iva" */}
+                          $ {formatNumber(iva)}
                         </div>
                       </div>
                       <div className='flex flex-col sm:flex-row sm:items-center gap-1.5 sm:gap-3'>
@@ -668,7 +685,8 @@ export default function EnterInvoicePageView({ trans }: Props) {
                         </div>
 
                         <div className='text-sm text-right border bg-default-100  p-2 font-medium  text-default-700 rounded w-full sm:w-[148px]'>
-                          <span>$ 927.985</span>
+                          {/* acá se debe mostrar el rusultado de la total, es decir del valor del subtotal mas iva */}
+                          <span>$ {formatNumber(total)}</span>
                         </div>
                       </div>
                     </div>
