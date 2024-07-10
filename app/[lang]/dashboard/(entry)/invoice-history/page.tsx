@@ -16,7 +16,7 @@ const productsArray = [
   {
     cod: '11',
     product: 'COLCHON CARIBBEAN PRIDE GENERICO GENERICO 100X190',
-    categoria: 'Colchones',
+    categoria: 'Muebles Relax',
   },
   {
     cod: '198245',
