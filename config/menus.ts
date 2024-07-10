@@ -57,7 +57,7 @@ export const menusConfig = {
           },
           {
             title: 'Historial Facturas',
-            href: '/dashboard/#',
+            href: '/dashboard/invoice-history',
             icon: Graph,
           },
           {

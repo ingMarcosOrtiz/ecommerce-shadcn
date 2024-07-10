@@ -138,6 +138,8 @@ export default function EnterInvoicePageView({ trans }: Props) {
   const [iva, setIva] = useState<number>(0)
   const [total, setTotal] = useState<number>(0)
 
+  const [isEditingAll, setIsEditingAll] = useState(false)
+
   useEffect(() => {
     calculateTotals()
   }, [productList])
@@ -154,6 +156,15 @@ export default function EnterInvoicePageView({ trans }: Props) {
     setSubtotal(newSubtotal)
     setIva(newIva)
     setTotal(newSubtotal + newIva)
+  }
+
+  const handleEditAllItems = () => {
+    const newProductList = productList.map((product) => ({
+      ...product,
+      isEditing: !isEditingAll,
+    }))
+    setProductList(newProductList)
+    setIsEditingAll(!isEditingAll)
   }
 
   const handleEditItem = (index: number) => {
@@ -198,7 +209,12 @@ export default function EnterInvoicePageView({ trans }: Props) {
   const handleDeleteItem = (index: number) => {
     const newProductList = [...productList]
     newProductList.splice(index, 1)
+
     setProductList(newProductList)
+
+    if (newProductList.length === 0) {
+      setIsEditingAll(false)
+    }
   }
 
   const handleAddItem = (code: string, name: string) => {
@@ -512,7 +528,14 @@ export default function EnterInvoicePageView({ trans }: Props) {
                   </Dialog>
                 </section>
                 {/* END - MODAL */}
-
+                <section className='relative  h-3'>
+                  <Button
+                    variant='soft'
+                    className='top-0 right-0 absolute'
+                    onClick={handleEditAllItems}>
+                    {isEditingAll ? 'Terminar' : 'Editar Tabla'}
+                  </Button>
+                </section>
                 <div className='border border-default-300 rounded-md mt-9'>
                   {/* START TABLA-PRODUCTO */}
                   <div className='overflow-x-auto'>
@@ -542,7 +565,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                             Valor Iva
                           </TableHead>
 
-                          <TableHead className='text-default-600 uppercase whitespace-nowrap'>
+                          <TableHead className='text-default-600 uppercase whitespace-nowrap  min-w-[150px]'>
                             Total
                           </TableHead>
                         </TableRow>
@@ -616,7 +639,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                               <span>$ {formatNumber(item.taxValue)}</span>
                             </TableCell>
                             <TableCell className='whitespace-nowrap text-right'>
-                              <div className='flex items-center justify-center gap-2'>
+                              <div className='flex items-center justify-end gap-2'>
                                 <span>$ {formatNumber(item.totalPrice)}</span>
                                 <TooltipProvider>
                                   <Tooltip>
