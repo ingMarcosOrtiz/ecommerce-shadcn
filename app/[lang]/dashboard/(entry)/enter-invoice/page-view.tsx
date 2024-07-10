@@ -50,6 +50,7 @@ import { Calendar } from '@/components/ui/calendar'
 
 // import { es } from 'date-fns/locale'
 import { format } from 'date-fns'
+import { toast } from 'sonner'
 
 import {
   Popover,
@@ -102,7 +103,7 @@ const productsArray = [
     categoria: 'Colchones',
   },
   {
-    cod: '1982459989',
+    cod: '198245',
     product: 'COLCHON CARIBBEAN PRIDE GENERICO GENERICO 140X190',
     categoria: 'Colchones',
   },
@@ -214,7 +215,10 @@ export default function EnterInvoicePageView({ trans }: Props) {
 
     // Verificar si el código ya existe
     if (productList.some((item) => item.code === newItem.code)) {
-      alert('El código de producto ya está en uso.')
+      toast.error('El código de producto ya está en uso.', {
+        position: 'top-right',
+      })
+
       return
     }
 
@@ -510,6 +514,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                 {/* END - MODAL */}
 
                 <div className='border border-default-300 rounded-md mt-9'>
+                  {/* START TABLA-PRODUCTO */}
                   <div className='overflow-x-auto'>
                     <Table>
                       <TableHeader>
@@ -521,15 +526,15 @@ export default function EnterInvoicePageView({ trans }: Props) {
                             Productos
                           </TableHead>
 
-                          <TableHead className='text-default-600 uppercase'>
+                          <TableHead className='text-default-600 uppercas min-w-[100px]'>
                             Cant
                           </TableHead>
 
-                          <TableHead className='text-default-600 uppercase whitespace-nowrap'>
+                          <TableHead className='text-default-600 uppercase whitespace-nowrap min-w-[150px] '>
                             Precio Unit.
                           </TableHead>
 
-                          <TableHead className='text-default-600 uppercase '>
+                          <TableHead className='text-default-600 uppercase min-w-[100px]'>
                             Iva %
                           </TableHead>
 
@@ -657,6 +662,7 @@ export default function EnterInvoicePageView({ trans }: Props) {
                       </TableBody>
                     </Table>
                   </div>
+                  {/* END TABLA-PRODUCTO */}
                   <div className='flex flex-col justify-end sm:flex-row gap-4 py-5 px-6'>
                     {/* invoice info */}
                     <div className='flex-none flex flex-col sm:items-end gap-y-2'>
