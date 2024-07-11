@@ -108,7 +108,7 @@ const LogInForm = () => {
                 ' text-sm ': isDesktop2xl,
               }
             )}>
-            Email
+            Correo
           </Label>
         </div>
         {errors.email && (
@@ -136,7 +136,7 @@ const LogInForm = () => {
                 ' text-sm ': isDesktop2xl,
               }
             )}>
-            Password
+            Contraseña
           </Label>
           <div
             className='absolute top-1/2 -translate-y-1/2 ltr:right-4 rtl:left-4 cursor-pointer'
@@ -157,8 +157,8 @@ const LogInForm = () => {
           </div>
         )}
 
-        <div className='mt-5  mb-6 flex flex-wrap gap-2'>
-          <div className='flex-1 flex  items-center gap-1.5 '>
+        <div className='mt-5  mb-6 flex flex-wrap gap-2 justify-end'>
+          {/* <div className='flex-1 flex  items-center gap-1.5 '>
             <Checkbox
               size='sm'
               className='border-default-300 mt-[1px]'
@@ -169,9 +169,9 @@ const LogInForm = () => {
               className='text-sm text-default-600 cursor-pointer whitespace-nowrap'>
               Remember me
             </Label>
-          </div>
+          </div> */}
           <Link href='/auth/forgot' className='flex-none text-sm text-primary'>
-            Forget Password?
+            Olvidaste la contraseña ?
           </Link>
         </div>
         <Button
@@ -181,7 +181,7 @@ const LogInForm = () => {
           {isPending && (
             <Loader2 className='ltr:mr-2 rtl:ml-2 h-4 w-4 animate-spin' />
           )}
-          {isPending ? 'Loading...' : 'Sign In'}
+          {isPending ? 'Loading...' : 'Iniciar sesión'}
         </Button>
       </form>
       {/* <div className='2xl:mt-8 mt-6 flex flex-wrap justify-center gap-4'>
