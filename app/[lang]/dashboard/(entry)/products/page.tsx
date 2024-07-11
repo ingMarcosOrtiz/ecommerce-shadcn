@@ -38,11 +38,11 @@ export default function Productpage() {
               </Button>
             </div>
             <div className='col-span-2 md:col-span-1  flex flex-col gap-2'>
-              <Label htmlFor='cinterno'>Codigo interno</Label>
+              <Label htmlFor='cinterno'>Sku</Label>
               <Input
                 size='lg'
                 type='text'
-                placeholder='ingresar codigo'
+                placeholder='codigo interno único'
                 id='cinterno'
               />
             </div>
