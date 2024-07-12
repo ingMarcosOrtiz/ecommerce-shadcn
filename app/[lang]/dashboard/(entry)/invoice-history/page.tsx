@@ -196,7 +196,7 @@ export default function InvoiceHistoryPage() {
                             color='warning'
                             title='Abonar'
                             size='icon'
-                            className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 hover:text-primary'>
+                            className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 dark:hover:text-primary hover:text-primary-foreground dark:hover:border-primary border'>
                             <Icon icon='prime-dollar' className='w-5 h-5' />
                           </Button>
                         )}
@@ -204,7 +204,7 @@ export default function InvoiceHistoryPage() {
                         <Button
                           title='Ver detalle'
                           size='icon'
-                          className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 hover:text-primary'>
+                          className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 dark:hover:text-primary hover:text-primary-foreground dark:hover:border-primary border'>
                           <Icon icon='heroicons:eye' className='w-5 h-5' />
                         </Button>
 
@@ -212,7 +212,7 @@ export default function InvoiceHistoryPage() {
                           color='success'
                           title='Editar'
                           size='icon'
-                          className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 hover:text-primary'>
+                          className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 dark:hover:text-primary hover:text-primary-foreground dark:hover:border-primary border'>
                           <Icon
                             icon='heroicons:pencil-square'
                             className='w-5 h-5'
@@ -222,7 +222,7 @@ export default function InvoiceHistoryPage() {
                           color='destructive'
                           title='Eliminar'
                           size='icon'
-                          className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 hover:text-primary'>
+                          className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 dark:hover:text-primary  hover:text-primary-foreground dark:hover:border-primary border'>
                           <Icon icon='heroicons:trash' className='w-5 h-5' />
                         </Button>
                       </div>
