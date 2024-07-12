@@ -62,7 +62,7 @@ export const menusConfig = {
           },
           {
             title: 'Proveedores',
-            href: '/dashboard/#',
+            href: '/dashboard/suppliers',
             icon: Graph,
           },
         ],
