@@ -1,4 +1,5 @@
 'use client'
+import React from 'react'
 import Card from '@/components/ui/card-snippet'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -13,125 +14,103 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
 
-// import { useTranslations } from 'next-intl'
-
-const suppliersListFetchData = [
+const customersFetchData = [
   {
     id: 1,
-    nit: '123456789',
-    supplierName: 'Colchones y Muebles Relax S.A.S.',
-    email: 'supplier1@example.com',
-    address: '123 Street, City',
+    cedula: '123456789',
+    name: 'Juan Pérez',
+    email: 'juan@example.com',
+    address: 'Calle Principal 123',
     phone: '123-456-7890',
-    website: 'www.colchonesymuebles.com',
   },
   {
     id: 2,
-    nit: '987654321',
-    supplierName: 'Edredona S.A.S.',
-    email: 'supplier2@example.com',
-    address: 'Main Ave, City',
+    cedula: '987654321',
+    name: 'María López',
+    email: 'maria@example.com',
+    address: 'Avenida Central 456',
     phone: '987-654-3210',
-    website: 'www.edredona.com',
   },
   {
     id: 3,
-    nit: '567890123',
-    supplierName: 'Pino & Pino',
-    email: 'supplier3@example.com',
-    address: 'Central Plaza, City',
+    cedula: '567890123',
+    name: 'Pedro Rodríguez',
+    email: 'pedro@example.com',
+    address: 'Plaza Central 789',
     phone: '567-890-1230',
-    website: 'www.pinopino.com',
   },
 ]
 
-export default function SuppliersPage() {
-  // const t = useTranslations('EnterInvoicePageTranslate')
-
+export default function CustomersPage() {
   return (
     <>
-      <Card title='Agregar nuevo proveedor'>
+      <Card title='Agregar nuevo cliente'>
         <form>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
             <div className='flex flex-col gap-2'>
-              <Label htmlFor='nit'>Nit</Label>
+              <Label htmlFor='documentNumber'>Cédula</Label>
               <Input
                 size='lg'
                 type='text'
-                placeholder='ingresar nit'
-                id='nit'
+                placeholder='Ingresar número de cédula'
+                id='documentNumber'
               />
             </div>
             <div className='flex-col w-full'>
-              <Label htmlFor='nprov'>Nombre proveedor</Label>
+              <Label htmlFor='name'>Nombre</Label>
               <Input
                 className='w-full'
                 size='lg'
                 type='text'
-                placeholder='nombre proveedor'
-                id='nprov'
+                placeholder='Nombre del cliente'
+                id='name'
               />
             </div>
 
             <div className='flex-col w-full'>
-              <Label htmlFor='correo'>Correo</Label>
+              <Label htmlFor='email'>Correo</Label>
               <Input
                 className='w-full'
                 size='lg'
                 type='email'
-                placeholder='correo proveedor'
-                id='correo'
-              />
-            </div>
-            <div className='flex-col w-full'>
-              <Label htmlFor='dir'>Dirección</Label>
-              <Input
-                className='w-full'
-                size='lg'
-                type='email'
-                placeholder='direccion'
-                id='dir'
+                placeholder='Correo del cliente'
+                id='email'
               />
             </div>
 
             <div className='flex-col w-full'>
-              <Label htmlFor='tel'>Telefono</Label>
+              <Label htmlFor='address'>Dirección</Label>
               <Input
                 className='w-full'
                 size='lg'
-                type='email'
-                placeholder='telefono'
-                id='tel'
+                type='text'
+                placeholder='Dirección del cliente'
+                id='address'
               />
             </div>
 
             <div className='flex-col w-full'>
-              <Label htmlFor='pweb'>Pagina web</Label>
+              <Label htmlFor='phone'>Número de Celular</Label>
               <Input
                 className='w-full'
                 size='lg'
-                type='email'
-                placeholder='pagina web'
-                id='pweb'
+                type='text'
+                placeholder='Número de celular del cliente'
+                id='phone'
               />
-            </div>
-
-            <div className='flex-col w-full'>
-              <Button
-                color='default'
-                // loading={false}
-                className='w-full md:w-auto'
-                type='button'>
-                {/* <Save className='mr-2' /> */}
-                Guardar
-              </Button>
             </div>
           </div>
+          <div className='flex-col w-full mt-5'>
+            <Button
+              color='default'
+              // loading={false}
+              className='w-full md:w-auto'
+              type='button'>
+              Guardar
+            </Button>
+          </div>
         </form>
-
-        {/* START - TABLA HISTORIAL FACTURAS */}
         <div className='border border-default-300 rounded-md mt-6'>
           <div className='overflow-x-auto'>
             <Table>
@@ -139,10 +118,10 @@ export default function SuppliersPage() {
                 <TableRow>
                   <TableHead className='p-0 h-10'></TableHead>
                   <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
-                    Nit
+                    Cédula
                   </TableHead>
                   <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
-                    Nombre proveedor
+                    Nombre
                   </TableHead>
                   <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
                     Correo
@@ -151,45 +130,39 @@ export default function SuppliersPage() {
                     Dirección
                   </TableHead>
                   <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
-                    Telefono
+                    Número de Celular
                   </TableHead>
                   <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
-                    Pagina web
-                  </TableHead>
-                  <TableHead className='h-10 text-center border-l border-default-300 text-default-600'>
-                    Options
+                    Opciones
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {suppliersListFetchData.map((supplier, index) => (
-                  <TableRow key={supplier.id}>
+                {customersFetchData.map((customer, index) => (
+                  <TableRow key={customer.id}>
                     <TableCell className='text-right text-xs p-1'>
                       {index + 1}
                     </TableCell>
                     <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                      {supplier.nit}
+                      {customer.cedula}
                     </TableCell>
                     <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                      {supplier.supplierName}
+                      {customer.name}
                     </TableCell>
                     <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                      {supplier.email}
+                      {customer.email}
                     </TableCell>
                     <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                      {supplier.address}
+                      {customer.address}
                     </TableCell>
                     <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                      {supplier.phone}
-                    </TableCell>
-                    <TableCell className='text-xs border-l border-default-300 text-center p-1'>
-                      {supplier.website}
+                      {customer.phone}
                     </TableCell>
                     <TableCell className='text-xs border-l border-default-300 p-1'>
                       <div className='flex gap-3 items-center justify-end'>
                         <Button
                           color='success'
-                          title='Edit'
+                          title='Editar'
                           size='icon'
                           className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 dark:hover:text-primary hover:text-primary-foreground dark:hover:border-primary border'>
                           <Icon
@@ -199,7 +172,7 @@ export default function SuppliersPage() {
                         </Button>
                         <Button
                           color='destructive'
-                          title='Delete'
+                          title='Eliminar'
                           size='icon'
                           className='h-9 w-9 rounded bg-default-100 dark:bg-default-200 text-default-500 dark:hover:text-primary hover:text-primary-foreground dark:hover:border-primary border'>
                           <Icon icon='heroicons:trash' className='w-5 h-5' />
@@ -212,7 +185,6 @@ export default function SuppliersPage() {
             </Table>
           </div>
         </div>
-        {/* END - TABLA HISTORIAL FACTURAS */}
       </Card>
     </>
   )

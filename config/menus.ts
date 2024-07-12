@@ -51,6 +51,11 @@ export const menusConfig = {
         href: '/dashboard',
         child: [
           {
+            title: 'Proveedores',
+            href: '/dashboard/suppliers',
+            icon: Graph,
+          },
+          {
             title: 'Nueva Factura',
             href: '/dashboard/enter-invoice',
             icon: Cart,
@@ -58,11 +63,6 @@ export const menusConfig = {
           {
             title: 'Historial Facturas',
             href: '/dashboard/invoice-history',
-            icon: Graph,
-          },
-          {
-            title: 'Proveedores',
-            href: '/dashboard/suppliers',
             icon: Graph,
           },
         ],
@@ -74,7 +74,7 @@ export const menusConfig = {
         child: [
           {
             title: 'Clientes',
-            href: '/dashboard/#',
+            href: '/dashboard/customers',
             icon: Graph,
           },
           {
