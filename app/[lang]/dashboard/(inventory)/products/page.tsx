@@ -56,13 +56,15 @@ export default function Productpage() {
               />
             </div>
             <div className='col-span-2 md:col-span-1  flex flex-col gap-2'>
-              <Label htmlFor='generarCod'>Generar Codigo</Label>
-              <Input
-                size='lg'
-                type='text'
-                placeholder='generar codigo'
-                id='generarCod'
-              />
+              <Label htmlFor='generarCod'>Generar Codigo de barra</Label>
+              <Button
+                color='default'
+                // loading={false}
+                className='w-full md:w-auto'
+                type='button'>
+                {/* <Save className='mr-2' /> */}
+                Generar
+              </Button>
             </div>
 
             {/* <div className='col-span-2 md:col-span-1 flex flex-col gap-2'>

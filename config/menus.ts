@@ -122,7 +122,7 @@ export const menusConfig = {
           },
           {
             title: 'Gastos',
-            href: '/dashboard/#',
+            href: '/dashboard/expenses',
             icon: Graph,
           },
         ],
