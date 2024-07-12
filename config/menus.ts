@@ -117,7 +117,7 @@ export const menusConfig = {
           },
           {
             title: 'Categoria Productos',
-            href: '/dashboard/#',
+            href: '/dashboard/category',
             icon: Graph,
           },
           {
