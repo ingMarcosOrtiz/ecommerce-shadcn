@@ -116,6 +116,7 @@ export default function InvoiceHistoryPage() {
             </Select>
           </div>
         </div>
+        {/* START - TABLA HISTORIAL FACTURAS */}
         <div className='border border-default-300 rounded-md'>
           <div className='overflow-x-auto'>
             <Table>
@@ -233,6 +234,7 @@ export default function InvoiceHistoryPage() {
             </Table>
           </div>
         </div>
+        {/* END - TABLA HISTORIAL FACTURAS */}
         <Pagination className='mt-8'>
           <PaginationContent>
             <PaginationItem>
